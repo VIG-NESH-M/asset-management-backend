@@ -5,6 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.List;
 
 import javax.annotation.PostConstruct;
 import org.springframework.core.io.Resource;
@@ -12,7 +13,6 @@ import org.springframework.core.io.Resource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.UrlResource;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -20,7 +20,6 @@ import com.staunch.tech.config.UploadFileConfig;
 import com.staunch.tech.dto.KRResponseDto;
 import com.staunch.tech.dto.KnowledgeRepoDto;
 import com.staunch.tech.entity.KnowledgeRepo;
-import com.staunch.tech.exception.AssetManagementException;
 import com.staunch.tech.fileexceptions.FileStorageException;
 import com.staunch.tech.fileexceptions.FileNotFoundExecption;
 import com.staunch.tech.repository.EmployeeRepository;
@@ -95,7 +94,7 @@ public class KnowledgeRepoServices implements IKnowledgeRepo {
 		
 		var manual = knowledgeRepo.findById(id);
 		if (manual.isEmpty()) {
-			throw new FileNotFoundExecption("Manual not found");
+			throw new FileNotFoundExecption("Repo not found");
 		}
 		knowledgeRepo.deleteById(id);
 		return "Repo with id : " + id + " deleted successfully";
@@ -109,6 +108,15 @@ public class KnowledgeRepoServices implements IKnowledgeRepo {
 			throw new FileNotFoundExecption("Manual not found");
 		}
 		return ConversionUtils.convertKnoledgeRepoToDto(manual.get());
+	}
+
+	@Override
+	public List<KnowledgeRepo> getAllRepo() {
+		var manualList = knowledgeRepo.findAll();
+		if (manualList.isEmpty()) {
+			throw new FileNotFoundExecption("Repo List Empty");
+		}
+		return manualList;
 	}
 
 }

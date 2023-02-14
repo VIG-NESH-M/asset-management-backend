@@ -67,4 +67,10 @@ public class KnowledgeRepoController {
 		var response = new ApiResponseDto("1200", "Success", knowledgeRepoServices.deletefile(id));
 		return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
 	}
+	
+	@GetMapping("/list")
+	public ResponseEntity<ApiResponseDto> listRepos() {
+		var response = new ApiResponseDto("1200", "Success", knowledgeRepoServices.getAllRepo());
+		return new ResponseEntity<>(response, HttpStatus.OK);
+	}
 }

@@ -33,7 +33,7 @@ public class KnowledgeRepo {
 	private String asset_name;
 
 	@ManyToOne
-	private Employee user_id;
+	private Employee user;
 
 	@Column(name = "uploaded_time")
 	private long uploaded_time;
