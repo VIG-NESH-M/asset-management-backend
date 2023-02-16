@@ -15,6 +15,4 @@ public class KnowledgeRepoDto {
 	private int id;
 	@NotBlank(message = "Asset name is empty")
 	private String asset_name;
-	@NotNull(message = "user id is Empty!")
-	private int userId;
 }

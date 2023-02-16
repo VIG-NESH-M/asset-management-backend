@@ -32,13 +32,13 @@ public class KnowledgeRepoController {
 	@Autowired
 	public KnowledgeRepoServices knowledgeRepoServices;
 	
-	@PostMapping("/uploadfile")
-	public ResponseEntity<ApiResponseDto> uploadfile(@RequestParam("dto") String dto, @RequestParam("file") MultipartFile file) throws JsonProcessingException {
+	@PostMapping("/uploadfile/{userId}")
+	public ResponseEntity<ApiResponseDto> uploadfile(@RequestParam("dto") String dto, @RequestParam("file") MultipartFile file, @PathVariable(name = "userId")int id) throws JsonProcessingException {
 		
 		ObjectMapper mapper = new ObjectMapper();
 		final KnowledgeRepoDto modelDTO;
 		modelDTO = mapper.readValue(dto, KnowledgeRepoDto.class);
-		var response = new ApiResponseDto("1200", "Success", knowledgeRepoServices.savefile(modelDTO, file));
+		var response = new ApiResponseDto("1200", "Success", knowledgeRepoServices.savefile(id, modelDTO, file));
 		return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
 	}
 	
@@ -61,7 +61,7 @@ public class KnowledgeRepoController {
 		
 	}
 	
-	@DeleteMapping("/delete/{id}")
+	@DeleteMapping("/{id}")
 	public ResponseEntity<ApiResponseDto> deleteFile(@PathVariable int id)
 	{
 		var response = new ApiResponseDto("1200", "Success", knowledgeRepoServices.deletefile(id));

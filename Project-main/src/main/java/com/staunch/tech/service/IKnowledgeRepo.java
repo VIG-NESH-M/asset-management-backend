@@ -13,7 +13,7 @@ public interface IKnowledgeRepo {
 	
 	void init();
 	
-	KRResponseDto savefile(KnowledgeRepoDto dto, MultipartFile file);
+	KRResponseDto savefile(int id, KnowledgeRepoDto dto, MultipartFile file);
 	
 	Resource downloadfile(String fileName);
 	

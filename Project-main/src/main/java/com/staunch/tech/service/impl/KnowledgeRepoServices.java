@@ -54,10 +54,10 @@ public class KnowledgeRepoServices implements IKnowledgeRepo {
 	}
 
 	@Override
-	public KRResponseDto savefile(KnowledgeRepoDto dto, MultipartFile file) {
+	public KRResponseDto savefile(int id, KnowledgeRepoDto dto, MultipartFile file) {
 
 		long uploadedTime = System.currentTimeMillis();
-		var userId = employeeRepository.findById(dto.getUserId());
+		var userId = employeeRepository.findById(id);
 		try {
 
 			String fileName = file.getOriginalFilename();
