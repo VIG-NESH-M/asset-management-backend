@@ -19,7 +19,7 @@ public interface IAssertService {
 
     /**
      *
-     * @parvam assetId
+     * @param assetId
      * @return
      */
     Asset getAsset(int assetId);

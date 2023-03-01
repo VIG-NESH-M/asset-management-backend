@@ -4,15 +4,21 @@ import com.staunch.tech.dto.EmailDetails;
 import com.staunch.tech.dto.TicketDto;
 import com.staunch.tech.dto.TicketRespDto;
 import com.staunch.tech.dto.UpdateTicketStatusDto;
+import com.staunch.tech.entity.Employee;
+import com.staunch.tech.entity.Reports2D;
+import com.staunch.tech.entity.Reports3D;
 import com.staunch.tech.entity.Ticket;
 import com.staunch.tech.exception.AssetManagementException;
 import com.staunch.tech.repository.EmployeeRepository;
+import com.staunch.tech.repository.Reports2DRepository;
+import com.staunch.tech.repository.Reports3DRepository;
 import com.staunch.tech.repository.TicketRepository;
 import com.staunch.tech.service.IEmailService;
 import com.staunch.tech.service.ITicketService;
 import com.staunch.tech.utils.ConversionUtils;
 import com.staunch.tech.utils.ValidationUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -36,7 +42,12 @@ public class TicketService implements ITicketService {
 
     @Autowired
     private IEmailService emailService;
-
+    
+    @Autowired
+    private Reports2DRepository reportsRepo;
+    
+    @Autowired
+    private Reports3DRepository reports3Repo;
     /**
      * @param ticketDto
      * @return
@@ -55,8 +66,11 @@ public class TicketService implements ITicketService {
         var ticket = ConversionUtils.convertDtoToNewEntity(ticketDto, employeeOpt.get(),userOpt.get().getName());
         var employee = employeeOpt.get();
         var emailDetails = new EmailDetails(employee.getEmail(),employee.getName(), ticket.getDescription(), ticket.getTitle(), null);
-         emailService.sendSimpleMail(emailDetails);
-        return ConversionUtils.convertEntityToRespDto(ticketRepository.save(ticket));
+        emailService.sendSimpleMail(emailDetails);
+        var newTicket = ConversionUtils.convertEntityToRespDto(ticketRepository.save(ticket));
+        var currentWeek = ConversionUtils.convertTimestampToWeek(newTicket.getCreatedTime());
+		reportsRepo.save(new Reports2D(ticketDto.getId(),"weekly", currentWeek, 1,ticket));
+        return newTicket;
     }
 
     /**
@@ -148,7 +162,11 @@ public class TicketService implements ITicketService {
         }
        ticket.setUpdatedBy(userOpt.get().getName());
        ticket.setUpdatedTime(System.currentTimeMillis());
-      return ConversionUtils.convertEntityToRespDto(ticketRepository.save(ticket));
+       var updatedTicket = ConversionUtils.convertEntityToRespDto(ticketRepository.save(ticket));
+       var uTicket = ConversionUtils.convertTimestampToWeek(updatedTicket.getCreatedTime());
+       reportsRepo.save(new Reports2D(updateTicketStatusDto.getId(),"colour", ticket.getCategory(), ticket.getTotalCost(),ticket));
+       reports3Repo.save(new Reports3D(updateTicketStatusDto.getId(), "radar", uTicket, ticket.getIssueType(), ticket.getTotalCost(), ticket));
+       return updatedTicket; 
     }
 
     /**
@@ -177,7 +195,12 @@ public class TicketService implements ITicketService {
         var emailDetails = new EmailDetails(employee.getEmail(),employee.getName(),
                 ticket.getDescription(), ticket.getTitle(), null);
         emailService.sendSimpleMail(emailDetails);
-        return ConversionUtils.convertEntityToRespDto(ticketRepository.save(updatedTicket));
+//        return ConversionUtils.convertEntityToRespDto(ticketRepository.save(updatedTicket));
+        var updateTicket = ConversionUtils.convertEntityToRespDto(ticketRepository.save(updatedTicket));
+        var uTicket = ConversionUtils.convertTimestampToWeek(updatedTicket.getCreatedTime());
+        reportsRepo.save(new Reports2D(ticketDto.getId(),"colour", ticket.getCategory(), ticket.getTotalCost(),ticket));
+        reports3Repo.save(new Reports3D(ticketDto.getId(), "radar", uTicket, updateTicket.getIssueType(), ticket.getTotalCost(), ticket));
+        return updateTicket;
     }
 
     /**
@@ -202,6 +225,22 @@ public class TicketService implements ITicketService {
         var employee = employeeOpt.get();
         var emailDetails = new EmailDetails(employee.getEmail(),employee.getName(), ticket.getDescription(), ticket.getTitle(), convFile);
         emailService.sendMailWithAttachment(emailDetails);
-        return ConversionUtils.convertEntityToRespDto(ticketRepository.save(ticket));
+        var newTicket = ConversionUtils.convertEntityToRespDto(ticketRepository.save(ticket));
+        var currentWeek = ConversionUtils.convertTimestampToWeek(newTicket.getCreatedTime());
+		reportsRepo.save(new Reports2D(ticketDto.getId(),"weekly", currentWeek, 1,ticket));
+        return newTicket;
     }
+
+	@Override
+	public List<TicketRespDto> getAllTicketsById(List<String> listId) {
+		List<TicketRespDto> tickets = new ArrayList<>();
+		for(var id : listId) {
+			var ticketOpt = ticketRepository.findById(id);
+	        if(ticketOpt.isEmpty()){
+	            throw new AssetManagementException("Ticket id is Invalid");
+	        }
+	       tickets.add(ConversionUtils.convertEntityToRespDto(ticketOpt.get()));
+		}	
+		return tickets;
+	} 
 }

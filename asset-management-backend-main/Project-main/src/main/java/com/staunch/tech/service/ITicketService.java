@@ -19,4 +19,6 @@ public interface ITicketService {
 
      TicketRespDto updateTicketStatus(UpdateTicketStatusDto updateTicketStatusDto);
      TicketRespDto updateTicket(String ticketId, TicketDto ticketDto);
+     
+    List<TicketRespDto> getAllTicketsById(List<String> listId);
 }

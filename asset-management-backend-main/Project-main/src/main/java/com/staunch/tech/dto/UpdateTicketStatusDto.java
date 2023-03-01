@@ -13,5 +13,8 @@ public class UpdateTicketStatusDto {
 	private int userId;
 	private long amountSpent;
 	private int assignedTo;
+	private String reslovedUsingManual;
+	private String isOverdue;
+	private int id;
 
 }

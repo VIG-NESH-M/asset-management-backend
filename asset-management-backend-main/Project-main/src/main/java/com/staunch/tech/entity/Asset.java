@@ -22,36 +22,15 @@ public class Asset {
     private int id;
     @Column(name ="name")
     private String name;
-    @Column(name ="code")
-    private String code;
-    @Column(name = "serialNo")
-    private int serialNo;
     @Column(name ="description")
     private String description;
+    @Column(name ="price")
+    private float price;
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "facility_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Location location;
   
-    @Column(name = "category")
-    private String category;
-    @Column(name = "department")
-    private String department;
-    @Column(name = "sub_asset")
-    private String subAsset;
-    @Column(name = "supplier")
-    private String supplier;
-    @Column(name = "priority")
-    private String priority;
-    @Column(name = "model")
-    private String model;
-    
-    private boolean status;
-    
-   
-    @Column(name ="price")
-    private float price;
-
     
     
     

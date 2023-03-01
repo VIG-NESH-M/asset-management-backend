@@ -29,8 +29,8 @@ public class Ticket {
     @Column(name ="issue_type")
     private String issueType;
     @Column(name ="asset_id")
-    private String assetId; 
-    
+    private String assetId;
+   
     
     @Column(name ="created_by")
     private String createdBy;

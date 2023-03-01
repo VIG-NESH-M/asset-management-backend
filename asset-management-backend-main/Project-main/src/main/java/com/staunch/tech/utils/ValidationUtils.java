@@ -2,10 +2,7 @@ package com.staunch.tech.utils;
 
 import com.staunch.tech.dto.AssetDto;
 import com.staunch.tech.dto.EmployeeDto;
-import com.staunch.tech.dto.InventoryDto;
-import com.staunch.tech.dto.LocationsDto;
 import com.staunch.tech.dto.TicketDto;
-import com.staunch.tech.entity.Inventory;
 import com.staunch.tech.entity.Location;
 import com.staunch.tech.exception.AssetManagementException;
 import org.slf4j.Logger;
@@ -53,26 +50,6 @@ public class ValidationUtils {
         logger.info("No Errors Found in Asset Dto");
     }
 
-    public void validate(InventoryDto inventoryDto){
-        logger.info("Validating the Ticket Object");
-        var inventoryConstraints = validator.validate(inventoryDto);
-        String inventoryViolations = inventoryConstraints.stream().map(ConstraintViolation::getMessage)
-                .collect(Collectors.joining(","));
-        if(!inventoryViolations.isBlank()){
-            throw new AssetManagementException(inventoryViolations);
-        }
-        logger.info("No Errors Found in Asset Dto");
-    }
-    public void validate(LocationsDto locationDto){
-        logger.info("Validating the Ticket Object");
-        var locationConstraints = validator.validate(locationDto);
-        String locationViolations = locationConstraints.stream().map(ConstraintViolation::getMessage)
-                .collect(Collectors.joining(","));
-        if(!locationViolations.isBlank()){
-            throw new AssetManagementException(locationViolations);
-        }
-        logger.info("No Errors Found in Asset Dto");
-    }
     /**
      *
      * @param ticketDto
