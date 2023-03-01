@@ -12,6 +12,8 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TicketDto {
+	
+	private int id;
 	private String uuid;
 	@NotBlank(message = "Title is Empty")
 	private String title;

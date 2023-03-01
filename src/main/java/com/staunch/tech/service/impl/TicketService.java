@@ -199,7 +199,7 @@ public class TicketService implements ITicketService {
         var updateTicket = ConversionUtils.convertEntityToRespDto(ticketRepository.save(updatedTicket));
         var uTicket = ConversionUtils.convertTimestampToWeek(updatedTicket.getCreatedTime());
         reportsRepo.save(new Reports2D(ticketDto.getId(),"colour", ticket.getCategory(), ticket.getTotalCost(),ticket));
-        reports3Repo.save(new Reports3D(ticketDto.getId(), "radar", uTicket, updateTicket.getIssueType(), ticket.getTotalCost(), ticket));
+        reports3Repo.save(new Reports3D(ticketDto.getId(), "radar", uTicket, updateTicket.getIssueTYpe(), ticket.getTotalCost(), ticket));
         return updateTicket;
     }
 

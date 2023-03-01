@@ -12,6 +12,8 @@ import com.staunch.tech.entity.Ticket;
 import com.staunch.tech.entity.WorkOrder;
 
 import java.io.IOException;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.UUID;
 
 import org.springframework.web.multipart.MultipartFile;
@@ -171,5 +173,23 @@ public class ConversionUtils {
 			String createdBy = location.getCreatedBy();
 			return new Locations(locationDto.getId(), locationDto.getName(), createdBy, createdTime, updatedBy, updatedTime);
 		}
+		public static String convertTimestampToWeek(long timestamp)
+	    {
+	    	Calendar cal = GregorianCalendar.getInstance();
+			cal.setTimeInMillis(System.currentTimeMillis());
+			int weekNo = cal.get(Calendar.WEEK_OF_MONTH);
+			int mont = cal.get(Calendar.MONTH);
+			int year = cal.get(Calendar.YEAR);
+			return String.valueOf(mont)+"-"+String.valueOf(year)+"("+String.valueOf(weekNo)+")";
+	    }
+	    
+	    public static String convertTimestampToMonth(long timestamp)
+	    {
+	    	Calendar cal = GregorianCalendar.getInstance();
+			cal.setTimeInMillis(System.currentTimeMillis());
+			int mont = cal.get(Calendar.MONTH);
+			int year = cal.get(Calendar.YEAR);
+			return String.valueOf(mont)+"-"+String.valueOf(year);
+	    }
 
 }

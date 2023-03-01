@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UpdateTicketStatusDto {
+	private int id;
 	private String ticketId;
 	private String status;
 	private int userId;
