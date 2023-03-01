@@ -3,8 +3,10 @@ package com.staunch.tech.utils;
 import com.staunch.tech.dto.*;
 import com.staunch.tech.entity.Asset;
 import com.staunch.tech.entity.Employee;
+import com.staunch.tech.entity.Inventory;
 import com.staunch.tech.entity.KnowledgeRepo;
 import com.staunch.tech.entity.Location;
+import com.staunch.tech.entity.Locations;
 import com.staunch.tech.entity.Resource;
 import com.staunch.tech.entity.Ticket;
 import com.staunch.tech.entity.WorkOrder;
@@ -140,5 +142,34 @@ public class ConversionUtils {
 	        		workorder.getDescription(),workorder.getWorkSubject(),workorder.getTaskDetails(),workorder.getDate(),workorder.getWorkOrderCost(),images,workorder.getCreatedBy(),workorder.getCreatedTime(),
 	        		workorder.getUpdatedBy(),workorder.getUpdatedTime(),workorder.getTimeTaken(),false,workorder.getExpectedCompletionTime());
 	    }
+	 
+	 public static Inventory convertDtoToNewEntity(InventoryDto inventoryDto, String createdBy) {
+			long createdTime = System.currentTimeMillis();
+			return new Inventory(inventoryDto.getId(), inventoryDto.getName(), inventoryDto.getCode(),inventoryDto.getDescription(),
+					inventoryDto.getQuantity(), inventoryDto.getPrice(), createdBy, createdTime, createdBy, createdTime,
+					false);
+		}
+
+		public static Inventory convertDtoToUpdateEntity(InventoryDto inventoryDto, String updatedBy,
+				Inventory inventory) {
+			long updatedTime = System.currentTimeMillis();
+			long createdTime = inventory.getCreatedTime();
+			String createdBy = inventory.getCreatedBy();
+			return new Inventory(inventoryDto.getId(), inventoryDto.getName(), inventoryDto.getCode(),inventoryDto.getDescription(),
+					inventoryDto.getQuantity(), inventoryDto.getPrice(), createdBy, createdTime, updatedBy, updatedTime, false);
+		}
+		
+		public static Locations convertDtoToNewEntity(LocationsDto locationDto, String createdBy) {
+			long createdTime = System.currentTimeMillis();
+			return new Locations(locationDto.getId(), locationDto.getName(), createdBy, createdTime, createdBy, createdTime);
+		}
+
+		public static Locations convertDtoToUpdateEntity(LocationsDto locationDto, String updatedBy,
+				Locations location) {
+			long updatedTime = System.currentTimeMillis();
+			long createdTime = location.getCreatedTime();
+			String createdBy = location.getCreatedBy();
+			return new Locations(locationDto.getId(), locationDto.getName(), createdBy, createdTime, updatedBy, updatedTime);
+		}
 
 }
