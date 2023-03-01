@@ -24,11 +24,11 @@ public class TicketDto {
 	private int employeeId;
 	@NotBlank(message = "Issue Type is Empty")
 	private String issueType;
-
+	
 	private String assetId;
 	
-	private int id;
-	
+	private long totalAmountSpent;
+
 	@NotNull(message = "user id is Empty!")
 	private int userId;
 	@NotNull(message = "Expected Completion Change is Empty!")

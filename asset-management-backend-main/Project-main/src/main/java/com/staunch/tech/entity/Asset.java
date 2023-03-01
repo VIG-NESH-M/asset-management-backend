@@ -34,7 +34,7 @@ public class Asset {
     
     
     
-    @Column(name ="created_by")
+    @Column(name ="created_by")		
     private String createdBy;
     @Column(name ="created_time")
     private long createdTime;

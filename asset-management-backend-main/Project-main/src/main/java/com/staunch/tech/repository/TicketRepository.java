@@ -13,5 +13,4 @@ public interface TicketRepository extends JpaRepository<Ticket, String> {
     List<Ticket> findByUuid(String uuid);
 
     List<Ticket> findByStatus(String status);
-    
 }

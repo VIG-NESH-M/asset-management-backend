@@ -1,5 +1,7 @@
 package com.staunch.tech.dto;
 
+import java.util.Date;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -7,11 +9,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UpdateTicketStatusDto {
-	private String ticketId;
-	private String status;
-	private int userId;
-	private long amountSpent;
-	private int assignedTo;
-
+public class ResourceUpdateReqDto {
+	private int resourceid;
+	private String resourceName;
+	private Date endDate;
 }

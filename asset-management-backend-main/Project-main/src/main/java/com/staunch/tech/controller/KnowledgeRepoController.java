@@ -45,7 +45,7 @@ public class KnowledgeRepoController {
 	}
 	
 	
-	@GetMapping("/download/{filename}")
+	@GetMapping("/download/{filename:.+}")
     public ResponseEntity<Resource> downloadFile(@PathVariable String filename) {
        
         Resource resource = knowledgeRepoServices.downloadfile(filename);

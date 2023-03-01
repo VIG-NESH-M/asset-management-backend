@@ -1,4 +1,4 @@
-package com.staunch.tech.entity;
+   package com.staunch.tech.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -40,19 +40,19 @@ public class EmployeeService implements IEmployeeService {
 	 * @param employeeDto
 	 * @return
 	 */
-	@Override
-	public EmployeeRespDto registerEmployee(EmployeeDto employeeDto) {
-		try {
-			validationUtils.validate(employeeDto);
-			var employee = ConversionUtils.convertDtoToNewEntity(employeeDto, "Dhinesh");
-			var encodedPassword = passwordEncoder.encode(employee.getPassword());
-			employee.setPassword(encodedPassword);
-			var savedEmployee = employeeRepository.save(employee);
-			return ConversionUtils.convertEntityToDto(savedEmployee);
-		} catch (DataIntegrityViolationException e) {
-			throw new AssetManagementException("SQL Error " + e.getRootCause().getMessage());
-		}
-	}
+//	@Override
+//	public EmployeeRespDto registerEmployee(EmployeeDto employeeDto) {
+//		try {
+//			validationUtils.validate(employeeDto);
+//			var employee = ConversionUtils.convertDtoToNewEntity(employeeDto, "Dhinesh");
+//			var encodedPassword = passwordEncoder.encode(employee.getPassword());
+//			employee.setPassword(encodedPassword);
+//			var savedEmployee = employeeRepository.save(employee);
+//			return ConversionUtils.convertEntityToDto(savedEmployee);
+//		} catch (DataIntegrityViolationException e) {
+//			throw new AssetManagementException("SQL Error " + e.getRootCause().getMessage());
+//		}
+//	}
 
 	/**
 	 * @param employeeDto
@@ -110,6 +110,11 @@ public class EmployeeService implements IEmployeeService {
 		return employeeDtoList;
 	}
 
+	@Override
+	public EmployeeRespDto registerEmployee(EmployeeDto employeeDto) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
 
 //	/**

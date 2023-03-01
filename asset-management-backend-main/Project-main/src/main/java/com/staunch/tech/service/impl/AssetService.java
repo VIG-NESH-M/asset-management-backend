@@ -92,7 +92,9 @@ public class AssetService implements IAssertService {
 	@Override
 	public List<Asset> getAllAssetsByFacility(String facilityCode) {
 		var assetList = assetRepository.findAll();
-		var assetListByLocationCode = assetList.stream().filter(asset -> asset.getLocation().getFacilityCode().equals(facilityCode)).collect(Collectors.toList());
+		var assetListByLocationCode = assetList.stream()
+				.filter(asset -> asset.getLocation().getFacilityCode().equals(facilityCode))
+				.collect(Collectors.toList());
 		if (assetListByLocationCode.isEmpty()) {
 			throw new AssetManagementException("Asset List is Empty in the given Facility Code!");
 		}
@@ -122,7 +124,8 @@ public class AssetService implements IAssertService {
 			if (userOpt.isEmpty()) {
 				throw new AssetManagementException("User Id is Invalid!");
 			}
-			var asset = ConversionUtils.convertDtoToUpdateEntity(assetDto, locationOpt.get(), userOpt.get().getName(),assetOpt.get());
+			var asset = ConversionUtils.convertDtoToUpdateEntity(assetDto, locationOpt.get(), userOpt.get().getName(),
+					assetOpt.get());
 			return assetRepository.save(asset);
 		} catch (DataIntegrityViolationException e) {
 			throw new AssetManagementException("SQL Error " + e.getRootCause().getMessage());

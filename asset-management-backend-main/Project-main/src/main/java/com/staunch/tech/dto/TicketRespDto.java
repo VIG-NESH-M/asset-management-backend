@@ -20,9 +20,9 @@ public class TicketRespDto {
     private String employeeName;
     private String employeeMail;
     private String employeeDepartment;
-    private String issueType;
+    private String issueTYpe;
     private String assetId;
-   
+    
     
     private String createdBy;
     private long createdTime;
