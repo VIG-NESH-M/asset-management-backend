@@ -16,8 +16,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ResourceDto {
 
-	@NotNull(message = "WorkerOrderId is empty")
-	private int workOrderId;
+
 	private int resourceId;
 	@NotBlank(message = "employeeName is empty")
 	private String resourceName;
@@ -31,6 +30,8 @@ public class ResourceDto {
 	private String availability;
 	@NotNull(message = "User_Id is empty")
 	private int userId;
+	@NotNull(message = "WorkerOrderId is empty")
+	private int workOrderId;
 	@NotNull(message = "INventory_Id is empty")
 	private int inventoryId;
 

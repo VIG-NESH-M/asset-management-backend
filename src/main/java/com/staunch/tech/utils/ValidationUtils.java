@@ -4,6 +4,7 @@ import com.staunch.tech.dto.AssetDto;
 import com.staunch.tech.dto.EmployeeDto;
 import com.staunch.tech.dto.ResourceDto;
 import com.staunch.tech.dto.TicketDto;
+import com.staunch.tech.dto.WorkOrderDto;
 import com.staunch.tech.entity.Location;
 import com.staunch.tech.entity.Resource;
 import com.staunch.tech.exception.AssetManagementException;
@@ -89,5 +90,15 @@ public class ValidationUtils {
 		}
 		logger.info("No Errors Found in Resource Dto");
 	}
+	  public void validate(WorkOrderDto workorderDto){
+	        logger.info("Validating the WorkOrder Object");
+	        var workorderConstraints = validator.validate(workorderDto);
+	        String workorderViolations = workorderConstraints.stream().map(ConstraintViolation::getMessage)
+	                .collect(Collectors.joining(","));
+	        if(!workorderViolations.isBlank()){
+	            throw new AssetManagementException(workorderViolations);
+	        }
+	        logger.info("No Errors Found in WorkOrder Dto");
+	    }
 
 }

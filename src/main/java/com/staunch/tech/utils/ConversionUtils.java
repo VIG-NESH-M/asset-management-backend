@@ -7,7 +7,12 @@ import com.staunch.tech.entity.KnowledgeRepo;
 import com.staunch.tech.entity.Location;
 import com.staunch.tech.entity.Resource;
 import com.staunch.tech.entity.Ticket;
+import com.staunch.tech.entity.WorkOrder;
+
+import java.io.IOException;
 import java.util.UUID;
+
+import org.springframework.web.multipart.MultipartFile;
 
 public class ConversionUtils {
 	private static String createdBy;
@@ -90,13 +95,13 @@ public class ConversionUtils {
 	public static Resource convertDtoToNewEntity(ResourceDto resourceDto, Integer userId) {
 		return new Resource(resourceDto.getResourceId(), resourceDto.getResourceName(), resourceDto.getResourceType(),
 				resourceDto.getStartDate(), resourceDto.getEndDate(),
-				resourceDto.getAvailability(),resourceDto.getWorkOrderId(),resourceDto.getInventoryId(), userId);
+				resourceDto.getAvailability(), userId,resourceDto.getWorkOrderId(),resourceDto.getInventoryId());
 	}
 
 	public static ResourceDto convertEntityToDto(Resource resource) {
-		return new ResourceDto(resource.getWorkOrderId(),resource.getResourceId(), resource.getResourceName(), resource.getResourceType(),
+		return new ResourceDto(resource.getResourceId(), resource.getResourceName(), resource.getResourceType(),
 				resource.getStartDate(), resource.getEndDate(), 
-				resource.getAvailability(), resource.getUserId(),resource.getInventoryId());
+				resource.getAvailability(), resource.getUserId(),resource.getWorkOrderId(),resource.getInventoryId());
 
 	}
 
@@ -118,4 +123,22 @@ public class ConversionUtils {
 //          assetDto.getPrice(), location, createdBy, createdTime, createdBy, createdTime,false);
 //  
 //    }
+	 public static WorkOrder convertDtoToNewEntity(WorkOrderDto workorderDto,Employee employee, String createdBy, MultipartFile file) throws IOException {
+	        long createdTime = System.currentTimeMillis();
+	        var data = ImageUtils.compressImage(file.getBytes());
+	        var name =file.getOriginalFilename();
+	        return new WorkOrder(workorderDto.getOrderNo(), workorderDto.getStatus(),workorderDto.getName(),
+	        		workorderDto.getEmailId(),employee,workorderDto.getPhoneNumber(),
+	                workorderDto.getDescription(),workorderDto.getWorkSubject(),workorderDto.getTaskDetails(),workorderDto.getDate(),workorderDto.getWorkOrderCost(),
+	                data,name,createdBy, createdTime, createdBy, createdTime,0,workorderDto.getExpectedCompletionTime());
+	    }
+	 
+	 public static WorkOrderRespDto convertEntityToRespDto(WorkOrder workorder) {
+	    	
+	        byte[] images=ImageUtils.decompressImage(workorder.getData());
+	        return new WorkOrderRespDto(workorder.getOrderNo(),workorder.getStatus(),workorder.getName(),workorder.getEmailId(),workorder.getEmployeeId(),workorder.getPhoneNumber(),
+	        		workorder.getDescription(),workorder.getWorkSubject(),workorder.getTaskDetails(),workorder.getDate(),workorder.getWorkOrderCost(),images,workorder.getCreatedBy(),workorder.getCreatedTime(),
+	        		workorder.getUpdatedBy(),workorder.getUpdatedTime(),workorder.getTimeTaken(),false,workorder.getExpectedCompletionTime());
+	    }
+
 }

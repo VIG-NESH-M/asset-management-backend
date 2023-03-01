@@ -56,14 +56,13 @@ public class WorkOrderController {
     return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
 	}
 	
-
-
-
 	@GetMapping("/list")
 	public ResponseEntity<ApiResponseDto> getAllWorkOrders() {
 		var response = new ApiResponseDto("1200", "Success", workorderservice.getAllWorkOrders());
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
+	
+	
 
 //	@GetMapping("/list/status/{status}")
 //	public ResponseEntity<ApiResponseDto> getAllWorkOrdersByStatus(@PathVariable("status") String status) {

@@ -53,5 +53,12 @@ public class ResourceController {
 		var response = new ApiResponseDto("1200", "Success", iResourceService.deleteById(id));
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
+	
+	@GetMapping("/wo/{id}")
+	public ResponseEntity<ApiResponseDto> getAllByworkorderId(@PathVariable int id) {
+		var response = new ApiResponseDto("1200", "Success", iResourceService.getAllByworkorderId(id));
+		return new ResponseEntity<>(response, HttpStatus.OK);
+	}
+
 
 }

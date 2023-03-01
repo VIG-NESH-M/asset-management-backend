@@ -2,14 +2,14 @@ package com.staunch.tech.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.staunch.tech.dto.ResourceDto;
-import com.staunch.tech.entity.Employee;
 import com.staunch.tech.entity.Resource;
 import com.staunch.tech.exception.AssetManagementException;
 import com.staunch.tech.repository.EmployeeRepository;
@@ -27,12 +27,11 @@ public class ResourceService implements IResourceService {
 
 	@Autowired
 	private ResourceRepository repository;
+	
 
 	@Autowired
 	private EmployeeRepository employeeRepository;
 
-	@Autowired
-	private PasswordEncoder passwordEncoder;
 
 	@Override
 	public Resource registerResource(ResourceDto resourceDto) {
@@ -91,5 +90,16 @@ public class ResourceService implements IResourceService {
 		}
 		repository.deleteById(id);
 		return "resource with id : " + id + " deleted successfully";
+	}
+	
+	public List<Resource> getAllByworkorderId(int workOrderId) {
+
+		var resourceList = repository.findByWorkOrderId(workOrderId);
+	
+		if (resourceList.isEmpty()) {
+			throw new AssetManagementException("Resource List is Empty");
+		}
+
+		return resourceList;
 	}
 }
