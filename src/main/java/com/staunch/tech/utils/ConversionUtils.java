@@ -30,30 +30,37 @@ public class ConversionUtils {
 				createdBy, createdTime, updatedBy, updatedTime, false);
 	}
 
-	public static Employee convertDtoToNewEntity(EmployeeDto employeeDto, String createdBy) {
-		long createdTime = System.currentTimeMillis();
-		return new Employee(employeeDto.getId(), employeeDto.getName(), employeeDto.getEmail(),
-				employeeDto.getDepartment(), employeeDto.getDesignation(), employeeDto.getPhoneNumber(),
-				employeeDto.getUsername(), employeeDto.getPassword(), employeeDto.getAddress(),
-				employeeDto.getLocation(), employeeDto.getRoles(), createdBy, createdTime, createdBy, createdTime);
-	}
+    public static Employee convertDtoToNewEntity(EmployeeDto employeeDto, String createdBy) {
+        long createdTime = System.currentTimeMillis();
+        return new Employee(employeeDto.getId(), employeeDto.getName(),
+                employeeDto.getEmail(),employeeDto.getUsername(),employeeDto.getPhoneNumber(), employeeDto.getDepartment(), employeeDto.getDesignation(),employeeDto.getRoles(),
+                employeeDto.getAddress(),employeeDto.getLocation(),employeeDto.getUsertype(),
+                employeeDto.getResourceplanner(),employeeDto.getPassword(),createdBy, createdTime, createdBy, createdTime);
+    }
 
-	public static Employee convertDtoToUpdateEntity(EmployeeUpdateReqDto employeeDto, String updatedBy,
-			Employee employee) {
-		long updatedTime = System.currentTimeMillis();
-		long createdTime = employee.getCreatedTime();
-		String createdBy = employee.getCreatedBy();
-		String empName = employeeDto.getName() == null ? employee.getName() : employeeDto.getName();
-		String empEmail = employeeDto.getEmail() == null ? employee.getEmail() : employeeDto.getEmail();
-		String department = employeeDto.getDepartment() == null ? employee.getDepartment()
-				: employeeDto.getDepartment();
-		long empPhoneNumber = employeeDto.getPhonenumber() != null ? employee.getPhoneNumber()
-				: employeeDto.getPhonenumber();
-		return new Employee(employee.getId(), employee.getName(), employee.getEmail(), employee.getDepartment(),
-				employee.getDesignation(), employee.getPhoneNumber(), employee.getUsername(), employee.getPassword(),
-				employee.getAddress(), employee.getLocation(), employee.getRoles(), createdBy, createdTime, createdBy,
-				createdTime);
-	}
+    /**
+     *
+     * @param employeeDto
+     * @param updatedBy
+     * @param employee
+     * @return
+     */
+    public static Employee convertDtoToUpdateEntity(EmployeeUpdateReqDto employeeDto, String updatedBy, Employee employee) {
+        long updatedTime = System.currentTimeMillis();
+        long createdTime = employee.getCreatedTime();
+        String createdBy = employee.getCreatedBy();
+       /* String Name = employeeDto.getName() == null ? employee.getName() : employeeDto.getName();
+        String Email = employeeDto.getEmail() == null ? employee.getEmail() : employeeDto.getEmail();
+        long phoneNumber = employeeDto.getPhoneNumber()!= null ? employee.getPhoneNumber() : employeeDto.getPhoneNumber();
+        String department = employeeDto.getDepartment() == null ? employee.getDepartment() : employeeDto.getDepartment();
+        String address = employeeDto.getAddress() == null ? employee.getAddress() : employeeDto.getAddress();
+        String location = employeeDto.getLocation() == null ? employee.getLocation() : employeeDto.getLocation();
+        String workertype = employeeDto.getUsertype() == null ? employee.getUsertype() : employeeDto.getUsertype();*/
+        
+ 
+        return new Employee(employee.getId(), employee.getName(),employee.getEmail(),employee.getUsername(),employee.getPhoneNumber(),employee.getDepartment(),employee.getDesignation(),  employee.getRoles(),employee.getAddress(),employee.getLocation(),employee.getUsertype(),employee.getResourceplanner(),employee.getPassword(),
+              createdBy, createdTime, updatedBy, updatedTime);
+    }
 
 	public static Ticket convertDtoToNewEntity(TicketDto ticketDto, Employee employee, String createdBy) {
 		long createdTime = System.currentTimeMillis();
@@ -81,10 +88,11 @@ public class ConversionUtils {
 	}
 
 	public static EmployeeRespDto convertEntityToDto(Employee employee) {
-		return new EmployeeRespDto(employee.getId(), employee.getName(), employee.getEmail(), employee.getDepartment(),
-				employee.getDesignation(), employee.getPhoneNumber(), employee.getUsername(), employee.getPassword(),
-				employee.getAddress(), employee.getLocation(), employee.getRoles());
-	}
+        return new EmployeeRespDto(employee.getId(), employee.getName(), employee.getEmail(), employee.getUsername(),
+                employee.getPhoneNumber(), employee.getDepartment(), employee.getDesignation(), employee.getRoles(),
+                employee.getAddress(),employee.getLocation(),employee.getUsertype(),employee.getResourceplanner(),employee.getPassword()
+               );
+    }
 
 	public static KRResponseDto convertFilenameToDto(KnowledgeRepoDto dto, String filename, int id, long time) {
 

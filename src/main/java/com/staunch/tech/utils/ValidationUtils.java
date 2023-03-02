@@ -26,6 +26,16 @@ public class ValidationUtils {
 	@Autowired
 	private Validator validator;
 
+	
+	public void validate(EmployeeDto employeeDto){
+        logger.info("Validating the Employee Object");
+        var employeeConstraints = validator.validate(employeeDto);
+        String employeeViolations = employeeConstraints.stream().map(ConstraintViolation::getMessage).collect(Collectors.joining(","));
+        if(!employeeViolations.isBlank()){
+            throw new AssetManagementException(employeeViolations);
+        }
+        logger.info("No Errors Found in EmployeeDto");
+    }
 	/**
 	 *
 	 * @param resourceDto
