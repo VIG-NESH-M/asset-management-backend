@@ -47,6 +47,12 @@ public class ReportsController {
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 	
+	@GetMapping("/bubble")
+	public ResponseEntity<ApiResponseDto> viewBubbe(){
+		var response = new ApiResponseDto("1200", "Success", reportServices.calculateBubbleReport());
+		return new ResponseEntity<>(response, HttpStatus.OK);
+	}
+	
 	@GetMapping("/values")
 	public ResponseEntity<ApiResponseDto> getvalues(@RequestParam List<String> listId){
 		var response = new ApiResponseDto("1200", "Success", ticketServices.getAllTicketsById(listId));

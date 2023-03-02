@@ -92,39 +92,6 @@ public class ReportsServices implements IReports{
 		var a = reports3Repo.findAllByType("radar");		
 		List<Reports3Dto> reports = new ArrayList<Reports3Dto>();
 		int pos = 0;
-//		Map<String,Map<String, Long>> map1= new HashMap<String,Map<String, Long>>();
-//		for(var i:a)
-//		{
-//			Map<String,Long> map=new HashMap<String,Long>();
-//			List<String> listUuid = new ArrayList<String>();
-//			int aa=0;
-//			if(map1.containsKey(i.getLabels()))
-//			{
-//				continue;
-//			}
-//			else {
-//				for(var j : a)
-//				{
-//					if(j.getLabels() == i.getLabels()) {
-//						if(map.containsKey(j.getLabel()))
-//						{
-//							map.put(j.getLabel(),map.get(j.getLabel())+j.getValues());
-//							listUuid.add(aa++,j.getTicket_id().getUuid());
-//						}
-//						else
-//						{
-//							map.put(j.getLabel(), j.getValues());
-//							listUuid.add(aa++,j.getTicket_id().getUuid());
-//						}
-//						}
-//					else {
-//						break;
-//					}
-//				}
-//				map1.put(i.getLabels(), map);
-//			}
-//			reports.add(pos++, new Reports3Dto(i.getLabels(), new ArrayList<String>(map1.get(i.getLabels()).keySet()), new ArrayList<Long>(map1.get(i.getLabels()).values()), listUuid));
-// 		}
 		Set<String> labels= new HashSet<>();
 		for(var i : a)
 		{
@@ -154,6 +121,43 @@ public class ReportsServices implements IReports{
 				value.add(bb++,temp);
 			}
 			reports.add(pos++,new Reports3Dto(i, month, value, listUuid));
+		}
+		return reports;
+	}  
+	
+	public List<Reports3Dto> calculateBubbleReport() {
+		var a = reports3Repo.findAllByType("bubble");		
+		List<Reports3Dto> reports = new ArrayList<Reports3Dto>();
+		int pos = 0;
+		Set<String> labels= new HashSet<>();
+		for(var i : a)
+		{
+			labels.add(i.getLabels());
+		}
+		List<String> label= new ArrayList<String>();
+		label.addAll(Arrays.asList("A safety hazard", "Minor Repair", "Major Repair", "Replacement Required"));
+		for(var i:labels)
+		{
+			List<String> listUuid = new ArrayList<String>();
+			List<String> week = new ArrayList<String>();
+			List<Long> value = new ArrayList<Long>();
+			int aa = 0;
+			int bb=0;
+			for(var j:label)
+			{
+				long temp=0;
+				for(var k:a)
+				{
+					if(i.contains(k.getLabels()) && j.contains(k.getLabel()))
+					{
+						temp=temp+k.getValues();
+						listUuid.add(aa++,k.getTicket_id().getUuid());
+					}
+				}
+				week.add(bb,j);
+				value.add(bb++,temp);
+			}
+			reports.add(pos++,new Reports3Dto(i, week, value, listUuid));
 		}
 		return reports;
 	}  

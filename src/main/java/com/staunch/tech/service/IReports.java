@@ -14,4 +14,7 @@ public interface IReports {
 	List<ReportsDto> calculatWeeklyReports();
 
 	List<Reports3Dto> calculateRadarReport();
+	
+	List<Reports3Dto> calculateBubbleReport();
+
 }

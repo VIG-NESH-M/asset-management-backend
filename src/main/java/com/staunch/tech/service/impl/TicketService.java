@@ -164,8 +164,12 @@ public class TicketService implements ITicketService {
        ticket.setUpdatedTime(System.currentTimeMillis());
        var updatedTicket = ConversionUtils.convertEntityToRespDto(ticketRepository.save(ticket));
        var uTicket = ConversionUtils.convertTimestampToWeek(updatedTicket.getCreatedTime());
-       reportsRepo.save(new Reports2D(updateTicketStatusDto.getId(),"colour", ticket.getCategory(), ticket.getTotalCost(),ticket));
-       reports3Repo.save(new Reports3D(updateTicketStatusDto.getId(), "radar", uTicket, ticket.getIssueType(), ticket.getTotalCost(), ticket));
+       var mReport = ConversionUtils.convertTimestampToMonth(updatedTicket.getCreatedTime());
+       if(ticket.getTotalCost()>0) {
+	       reportsRepo.save(new Reports2D(updateTicketStatusDto.getId(),"colour", ticket.getCategory(), ticket.getTotalCost(),ticket));
+	       reports3Repo.save(new Reports3D(updateTicketStatusDto.getId(), "radar", mReport, ticket.getIssueType(), ticket.getTotalCost(), ticket));
+	       reports3Repo.save(new Reports3D(updateTicketStatusDto.getId(), "bubble", uTicket, ticket.getIssueType(), ticket.getTotalCost(), ticket));
+	   }
        return updatedTicket; 
     }
 
@@ -198,8 +202,12 @@ public class TicketService implements ITicketService {
 //        return ConversionUtils.convertEntityToRespDto(ticketRepository.save(updatedTicket));
         var updateTicket = ConversionUtils.convertEntityToRespDto(ticketRepository.save(updatedTicket));
         var uTicket = ConversionUtils.convertTimestampToWeek(updatedTicket.getCreatedTime());
-        reportsRepo.save(new Reports2D(ticketDto.getId(),"colour", ticket.getCategory(), ticket.getTotalCost(),ticket));
-        reports3Repo.save(new Reports3D(ticketDto.getId(), "radar", uTicket, updateTicket.getIssueTYpe(), ticket.getTotalCost(), ticket));
+        var mReport = ConversionUtils.convertTimestampToMonth(updatedTicket.getCreatedTime());
+        if(ticket.getTotalCost() > 0) {
+	        reportsRepo.save(new Reports2D(ticketDto.getId(),"colour", ticket.getCategory(), ticket.getTotalCost(),ticket));
+	        reports3Repo.save(new Reports3D(ticketDto.getId(), "radar", mReport, updateTicket.getIssueTYpe(), ticket.getTotalCost(), ticket));
+	        reports3Repo.save(new Reports3D(ticketDto.getId(), "bubble", uTicket, updateTicket.getIssueTYpe(), ticket.getTotalCost(), ticket));
+        }
         return updateTicket;
     }
 
