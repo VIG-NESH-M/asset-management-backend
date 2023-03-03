@@ -10,6 +10,7 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.staunch.tech.dto.BubbleChartDto;
 import com.staunch.tech.dto.Reports3Dto;
 import com.staunch.tech.dto.ReportsDto;
 import com.staunch.tech.entity.Reports3D;
@@ -125,9 +126,9 @@ public class ReportsServices implements IReports{
 		return reports;
 	}  
 	
-	public List<Reports3Dto> calculateBubbleReport() {
-		var a = reports3Repo.findAllByType("bubble");		
-		List<Reports3Dto> reports = new ArrayList<Reports3Dto>();
+	public List<BubbleChartDto> calculateBubbleReport() {
+		var a = reports3Repo.findAllByType("radar");		
+		List<BubbleChartDto> reports = new ArrayList<BubbleChartDto>();
 		int pos = 0;
 		Set<String> labels= new HashSet<>();
 		for(var i : a)
@@ -136,28 +137,30 @@ public class ReportsServices implements IReports{
 		}
 		List<String> label= new ArrayList<String>();
 		label.addAll(Arrays.asList("A safety hazard", "Minor Repair", "Major Repair", "Replacement Required"));
-		for(var i:labels)
+		for(var i:label)
 		{
-			List<String> listUuid = new ArrayList<String>();
-			List<String> week = new ArrayList<String>();
+			List<String> type = new ArrayList<String>();
 			List<Long> value = new ArrayList<Long>();
+			List<Long> no = new ArrayList<Long>();
 			int aa = 0;
 			int bb=0;
-			for(var j:label)
+			for(var j:labels)
 			{
 				long temp=0;
+				long n = 0;
 				for(var k:a)
 				{
-					if(i.contains(k.getLabels()) && j.contains(k.getLabel()))
+					if(i.contains(k.getLabel()) && j.contains(k.getLabels()))
 					{
 						temp=temp+k.getValues();
-						listUuid.add(aa++,k.getTicket_id().getUuid());
+						n+=1;
 					}
 				}
-				week.add(bb,j);
-				value.add(bb++,temp);
+				type.add(bb,j);
+				value.add(bb,temp);
+				no.add(bb++,n);
 			}
-			reports.add(pos++,new Reports3Dto(i, week, value, listUuid));
+			reports.add(pos++,new BubbleChartDto(i, type, value,no));
 		}
 		return reports;
 	}  

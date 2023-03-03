@@ -1,5 +1,6 @@
 package com.staunch.tech.service;
 
+import com.staunch.tech.dto.BubbleChartDto;
 import com.staunch.tech.dto.Reports3Dto;
 import com.staunch.tech.dto.ReportsDto;
 
@@ -15,6 +16,6 @@ public interface IReports {
 
 	List<Reports3Dto> calculateRadarReport();
 	
-	List<Reports3Dto> calculateBubbleReport();
+	List<BubbleChartDto> calculateBubbleReport();
 
 }
